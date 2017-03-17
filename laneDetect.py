@@ -19,15 +19,15 @@ def calcX1Y1X2Y2(rads):
     return x1,y1,x2,y2
 
 def auto_canny(image, sigma=0.33):
-	# compute the median of the single channel pixel intensities
+    # compute the median of the single channel pixel intensities
     v = np.median(image)
  
-	# apply automatic Canny edge detection using the computed median
+    # apply automatic Canny edge detection using the computed median
     lower = int(max(0, (1.0 - sigma) * v))
     upper = int(min(255, (1.0 + sigma) * v))
     edged = cv2.Canny(image, lower, upper)
  
-	# return the edged image
+    # return the edged image
     return edged
     
 '''def rightIntercept(x1,y1,x2,y2,frame,i,j):
@@ -69,11 +69,11 @@ while(True):
     edges = auto_canny(blurred)
 
     #edges = cv2.Canny(frame,150,200,apertureSize = 3)
-    #cv2.imshow('canny', edges)
+    cv2.imshow('canny', edges)
     #cv2.namedWindow('Lane Markers', cv2.WINDOW_NORMAL )
 
     i,j = edges.shape
-    print i," ",j
+    #print i," ",j
     #cv2.line(img,(0,i),(j,i),(0,255,0),3)
     #for calculating ROI
     for x in range(i/4):
@@ -96,17 +96,17 @@ while(True):
             for y in range(0, k):
                 edges[x][y] = 0
             k -= 2 
-      	
+        
     k = j*2/3
     while(k<=j):
-        for x in range(start, i):	    
+        for x in range(start, i):       
             for y in range(k, j):
                 edges[x][y] = 0
             k += 2
             
     cv2.imshow('roi', edges)
 
-    lines = cv2.HoughLines (edges,.45,np.pi/180,45)
+    lines = cv2.HoughLines (edges,.35,np.pi/180,45)
 
     try:
         rads1 = []
@@ -194,8 +194,8 @@ while(True):
     except:
         continue
     #print lines
-    print rads1
-    print rads2
+    #print rads1
+    #print rads2
     cv2.imshow('Lane Markers',frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
